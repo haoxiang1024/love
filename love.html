@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的专属充电站</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            /* 温暖柔和的渐变背景，像清晨的日出，驱散夜班的寒意 */
+            background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E1 100%);
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: #6d4c41;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 480px;
+            width: 100%;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 40px rgba(233, 150, 122, 0.15);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 22px;
+            color: #d87093;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .message {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: left;
+            color: #795548;
+        }
+        .highlight {
+            color: #d87093;
+            font-weight: bold;
+        }
+        
+        /* 缓解压力的呼吸动画 */
+        .breathe-container {
+            margin: 35px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .breathe-text {
+            font-size: 14px;
+            color: #a1887f;
+            margin-bottom: 15px;
+        }
+        .circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffb6c1 0%, #ffc0cb 100%);
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+            /* 4秒吸气，4秒呼气的平缓节奏 */
+            animation: breathe 8s infinite ease-in-out; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.7; box-shadow: 0 0 10px rgba(255, 182, 193, 0.4); }
+            50% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 40px rgba(255, 182, 193, 0.8); }
+        }
+
+        /* 互动按钮 */
+        .hug-btn {
+            background: #ffb6c1;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+            margin-top: 10px;
+        }
+        .hug-btn:hover {
+            background: #ff9aa2;
+            transform: translateY(-2px);
+        }
+        #hug-message {
+            margin-top: 15px;
+            font-size: 15px;
+            color: #d87093;
+            min-height: 24px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>🌙 亲爱的，辛苦了</h1>
+        
+        <div class="message">
+            <p>我知道刚才的夜班一定很熬人。长时间的走动、随时紧绷的神经，还有那些可能让你觉得委屈的瞬间，我都明白。</p>
+            <br>
+            <p>在这里，你不是那个需要时刻保持专业的护士，也不需要去照顾病人和应对同事。</p>
+            <br>
+            <p>这里是你的<span class="highlight">情绪回收站</span>。你可以卸下所有防备，把疲惫和压力都留在这里。</p>
+        </div>
+
+        <div class="breathe-container">
+            <div class="breathe-text">如果你觉得心里很乱，看着光环，跟我一起：</div>
+            <div class="circle" id="breathe-circle">吸气</div>
+        </div>
+
+        <div class="message">
+            <p>你的作息总是颠倒，我真的很在乎你的身体。如果现在下班了，请一定要喝一杯温水，吃点热乎的东西，然后什么都别想，好好睡一觉。</p>
+        </div>
+
+        <button class="hug-btn" onclick="giveHug()">点击获取一个云拥抱</button>
+        <div id="hug-message"></div>
+    </div>
+</div>
+
+<script>
+    // 呼吸文字切换逻辑
+    const circle = document.getElementById('breathe-circle');
+    setInterval(() => {
+        if (circle.innerText === '吸气') {
+            setTimeout(() => { circle.innerText = '呼气'; }, 4000);
+        } else {
+            setTimeout(() => { circle.innerText = '吸气'; }, 4000);
+        }
+    }, 8000);
+    setTimeout(() => { circle.innerText = '呼气'; }, 4000); // 初始化
+
+    // 点击拥抱逻辑
+    const hugs = [
+        "抱抱～你今天做得非常棒了！",
+        "别太累了，我的肩膀永远给你靠。",
+        "哪怕全世界都在催你，我也只想让你慢慢来。",
+        "睡个好觉，醒来我就在你身边。",
+        "你照顾了那么多人，现在换我来照顾你。"
+    ];
+
+    function giveHug() {
+        const msgDiv = document.getElementById('hug-message');
+        const randomIndex = Math.floor(Math.random() * hugs.length);
+        msgDiv.innerText = hugs[randomIndex];
+        msgDiv.style.opacity = 0;
+        setTimeout(() => {
+            msgDiv.style.transition = "opacity 0.5s";
+            msgDiv.style.opacity = 1;
+        }, 50);
+    }
+</script>
+
+</body>
+</html>
