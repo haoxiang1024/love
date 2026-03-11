@@ -48,55 +48,47 @@
             font-weight: bold;
         }
         
-        /* 缓解压力的呼吸动画 */
-        .breathe-container {
-            margin: 35px 0;
+        /* 互动按钮组 */
+        .btn-group {
+            margin-top: 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 15px; /* 按钮之间的间距 */
         }
-        .breathe-text {
-            font-size: 14px;
-            color: #a1887f;
-            margin-bottom: 15px;
-        }
-        .circle {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #ffb6c1 0%, #ffc0cb 100%);
-            box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
-            /* 4秒吸气，4秒呼气的平缓节奏 */
-            animation: breathe 8s infinite ease-in-out; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 14px;
-            letter-spacing: 2px;
-        }
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.7; box-shadow: 0 0 10px rgba(255, 182, 193, 0.4); }
-            50% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 40px rgba(255, 182, 193, 0.8); }
-        }
-
-        /* 互动按钮 */
-        .hug-btn {
-            background: #ffb6c1;
-            color: white;
+        .btn {
             border: none;
             padding: 12px 30px;
             border-radius: 30px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            width: 100%; /* 按钮宽度占满父容器，方便排列 */
+            max-width: 280px; /* 限制最大宽度，避免平板上太宽 */
+        }
+        
+        /* 背景音乐按钮样式 */
+        .music-btn {
+            background: #e1bee7; /* 淡紫色，区别于拥抱按钮 */
+            color: #512da8;
+            box-shadow: 0 4px 15px rgba(225, 190, 231, 0.5);
+        }
+        .music-btn:hover {
+            background: #d1c4e9;
+            transform: translateY(-2px);
+        }
+
+        /* 互动按钮样式 */
+        .hug-btn {
+            background: #ffb6c1; /* 莫兰迪粉，沿用原设计 */
+            color: white;
             box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
-            margin-top: 10px;
         }
         .hug-btn:hover {
             background: #ff9aa2;
             transform: translateY(-2px);
         }
+        
         #hug-message {
             margin-top: 15px;
             font-size: 15px;
@@ -120,31 +112,39 @@
             <p>这里是你的<span class="highlight">情绪回收站</span>。你可以卸下所有防备，把疲惫和压力都留在这里。</p>
         </div>
 
-        <div class="breathe-container">
-            <div class="breathe-text">如果你觉得心里很乱，看着光环，跟我一起：</div>
-            <div class="circle" id="breathe-circle">吸气</div>
-        </div>
-
         <div class="message">
             <p>你的作息总是颠倒，我真的很在乎你的身体。如果现在下班了，请一定要喝一杯温水，吃点热乎的东西，然后什么都别想，好好睡一觉。</p>
         </div>
 
-        <button class="hug-btn" onclick="giveHug()">点击获取一个云拥抱</button>
+        <div class="btn-group">
+            <button id="music-btn" class="btn music-btn" onclick="toggleMusic()">♪ 播放舒缓背景音乐</button>
+            <button class="btn hug-btn" onclick="giveHug()">点击获取一个拥抱</button>
+        </div>
         <div id="hug-message"></div>
     </div>
 </div>
 
+<audio id="bg-music" loop>
+    <source src="soothing-piano.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放。
+</audio>
+
 <script>
-    // 呼吸文字切换逻辑
-    const circle = document.getElementById('breathe-circle');
-    setInterval(() => {
-        if (circle.innerText === '吸气') {
-            setTimeout(() => { circle.innerText = '呼气'; }, 4000);
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
+
+    // 音乐播放控制逻辑
+    function toggleMusic() {
+        if (music.paused) {
+            music.play();
+            musicBtn.innerText = '♪ 暂停背景音乐';
+            musicBtn.style.background = '#d1c4e9'; /* 播放时的颜色稍微变浅，作为视觉反馈 */
         } else {
-            setTimeout(() => { circle.innerText = '吸气'; }, 4000);
+            music.pause();
+            musicBtn.innerText = '♪ 播放舒缓背景音乐';
+            musicBtn.style.background = '#e1bee7'; /* 暂停时的颜色变深 */
         }
-    }, 8000);
-    setTimeout(() => { circle.innerText = '呼气'; }, 4000); // 初始化
+    }
 
     // 点击拥抱逻辑
     const hugs = [
