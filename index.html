@@ -67,15 +67,47 @@
             max-width: 280px; /* 限制最大宽度，避免平板上太宽 */
         }
         
+        /* 音乐控制行（包含按钮和滑块） */
+        .music-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 320px;
+            gap: 10px;
+        }
+        
         /* 背景音乐按钮样式 */
         .music-btn {
             background: #e1bee7; /* 淡紫色，区别于拥抱按钮 */
             color: #512da8;
             box-shadow: 0 4px 15px rgba(225, 190, 231, 0.5);
+            flex: 1; /* 让按钮占据左侧剩余空间 */
+            padding: 12px 15px; /* 稍微调整内边距适应滑块 */
+            max-width: none;
         }
         .music-btn:hover {
             background: #d1c4e9;
             transform: translateY(-2px);
+        }
+
+        /* 音量控制区域 */
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 8px 12px;
+            border-radius: 20px;
+        }
+        .volume-control span {
+            font-size: 14px;
+        }
+        /* 音量滑块样式 */
+        #volume-slider {
+            width: 60px;
+            cursor: pointer;
+            accent-color: #d87093; /* 配合主题颜色的滑块 */
         }
 
         /* 互动按钮样式 */
@@ -109,7 +141,7 @@
             <br>
             <p>在这里，你不是那个需要时刻保持专业的护士，也不需要去照顾病人和应对同事。</p>
             <br>
-            <p>你照顾病人 我照顾你</p>
+            <p>你照顾病人，我照顾你。</p>
         </div>
 
         <div class="message">
@@ -117,7 +149,14 @@
         </div>
 
         <div class="btn-group">
-            <button id="music-btn" class="btn music-btn" onclick="toggleMusic()">♪ 播放舒缓背景音乐</button>
+            <div class="music-row">
+                <button id="music-btn" class="btn music-btn" onclick="toggleMusic()">♪ 播放舒缓音乐</button>
+                <div class="volume-control">
+                    <span>🔊</span>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.3" title="调节音量">
+                </div>
+            </div>
+            
             <button class="btn hug-btn" onclick="giveHug()">点击获取一个拥抱</button>
         </div>
         <div id="hug-message"></div>
@@ -132,17 +171,26 @@
 <script>
     const music = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+
+    // 初始化：设置默认音量为 30%
+    music.volume = 0.3;
+
+    // 监听滑块拖动事件，实时调节音量
+    volumeSlider.addEventListener('input', function() {
+        music.volume = this.value;
+    });
 
     // 音乐播放控制逻辑
     function toggleMusic() {
         if (music.paused) {
             music.play();
-            musicBtn.innerText = '♪ 暂停背景音乐';
-            musicBtn.style.background = '#d1c4e9'; /* 播放时的颜色稍微变浅，作为视觉反馈 */
+            musicBtn.innerText = '♪ 暂停音乐';
+            musicBtn.style.background = '#d1c4e9'; 
         } else {
             music.pause();
-            musicBtn.innerText = '♪ 播放舒缓背景音乐';
-            musicBtn.style.background = '#e1bee7'; /* 暂停时的颜色变深 */
+            musicBtn.innerText = '♪ 播放舒缓音乐';
+            musicBtn.style.background = '#e1bee7'; 
         }
     }
 
